@@ -1,0 +1,1286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light only">
+  <meta name="supported-color-schemes" content="light only">
+  <title>Marica Miglio</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+
+  <style>
+    /* ═══════════════════════════════════════
+       CSS VARIABLES & RESET
+       ═══════════════════════════════════════ */
+    :root {
+      --color-bg: #faf8f5;
+      --color-bg-alt: #f3efe9;
+      --color-bg-dark: #2c2926;
+      --color-text: #3a3632;
+      --color-text-light: #6b6560;
+      --color-text-muted: #9a9490;
+      --color-accent: #b8860b;
+      --color-accent-light: #d4a843;
+      --color-accent-dark: #8a6508;
+      --color-border: #ddd6cc;
+      --color-white: #ffffff;
+      --color-link: #6b4c2a;
+
+      --font-serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+      --font-sans: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif;
+
+      --max-width: 960px;
+      --nav-height: 64px;
+
+      --ease-smooth: cubic-bezier(0.25, 0.1, 0.25, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* Force light mode on iOS and all dark-mode devices */
+    @media (prefers-color-scheme: dark) {
+      html, body {
+        background-color: #faf8f5 !important;
+        color: #3a3632 !important;
+        color-scheme: light !important;
+      }
+    }
+
+    html { scroll-behavior: smooth; font-size: 17px; color-scheme: light; }
+
+    body {
+      font-family: var(--font-sans);
+      color: var(--color-text) !important;
+      background: var(--color-bg) !important;
+      background-color: #faf8f5 !important;
+      line-height: 1.7;
+      font-weight: 400;
+      -webkit-font-smoothing: antialiased;
+      -webkit-text-fill-color: var(--color-text);
+    }
+
+    /* ═══════════════════════════════════════
+       NAVIGATION
+       ═══════════════════════════════════════ */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      height: var(--nav-height);
+      background: rgba(250, 248, 245, 0.92) !important;
+      background-color: #faf8f5 !important;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--color-border);
+      transition: box-shadow 0.3s var(--ease-smooth);
+    }
+
+    nav.scrolled {
+      box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+    }
+
+    .nav-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 2rem;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-name {
+      font-family: var(--font-serif);
+      font-size: 1.35rem;
+      font-weight: 600;
+      color: var(--color-text);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 0.25rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--color-text-light);
+      text-decoration: none;
+      padding: 0.4rem 0.75rem;
+      border-radius: 6px;
+      transition: all 0.2s var(--ease-smooth);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--color-accent-dark);
+      background: rgba(184, 134, 11, 0.08);
+    }
+
+    /* Hamburger */
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--color-text);
+      margin: 5px 0;
+      transition: all 0.3s;
+      border-radius: 2px;
+    }
+
+    /* ═══════════════════════════════════════
+       PAGE SECTIONS (hidden/shown via JS)
+       ═══════════════════════════════════════ */
+    .page {
+      display: none;
+      padding-top: calc(var(--nav-height) + 2rem);
+      min-height: 100vh;
+      animation: fadeIn 0.4s var(--ease-smooth);
+      background-color: #faf8f5 !important;
+    }
+
+    .page.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 2rem 4rem;
+    }
+
+    /* ═══════════════════════════════════════
+       HOME PAGE
+       ═══════════════════════════════════════ */
+    .hero {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 3rem;
+      align-items: start;
+      padding: 2.5rem 0 3.5rem;
+    }
+
+    .hero-photo {
+      width: 100%;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      border-radius: 8px;
+      background: var(--color-bg-alt);
+      border: 1px solid var(--color-border);
+      /* Placeholder styling */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-text-muted);
+      font-size: 0.85rem;
+      font-style: italic;
+    }
+
+    .hero-text h1 {
+      font-family: var(--font-serif);
+      font-size: 2.8rem;
+      font-weight: 600;
+      line-height: 1.15;
+      color: var(--color-text);
+      margin-bottom: 0.35rem;
+      letter-spacing: -0.01em;
+    }
+
+    .hero-text .subtitle {
+      font-size: 1.05rem;
+      color: var(--color-text-light);
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+
+    .hero-text .subtitle a {
+      color: var(--color-accent-dark);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
+    }
+
+    .hero-text .subtitle a:hover {
+      border-bottom-color: var(--color-accent);
+    }
+
+    .hero-bio {
+      font-size: 0.97rem;
+      line-height: 1.8;
+      color: var(--color-text);
+    }
+
+    .hero-bio p { margin-bottom: 1rem; }
+
+    .hero-links {
+      display: flex;
+      gap: 1.25rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .hero-links a {
+      font-size: 0.82rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--color-accent-dark);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: color 0.2s;
+    }
+
+    .hero-links a:hover { color: var(--color-accent); }
+
+    .hero-links a svg {
+      width: 15px;
+      height: 15px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    /* Contact line */
+    .contact-line {
+      font-size: 0.88rem;
+      color: var(--color-text-muted);
+      margin-top: 1.25rem;
+      font-style: italic;
+    }
+
+    .contact-line a {
+      color: var(--color-text-light);
+      text-decoration: none;
+      border-bottom: 1px dotted var(--color-border);
+    }
+
+    /* ── Home Sections Grid ── */
+    .home-sections {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      padding: 2.5rem 0;
+      border-top: 1px solid var(--color-border);
+    }
+
+    .home-card {
+      padding: 2rem;
+      background: var(--color-white) !important;
+      background-color: #ffffff !important;
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      transition: all 0.3s var(--ease-smooth);
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    .home-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+      border-color: var(--color-accent-light);
+    }
+
+    .home-card h3 {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.6rem;
+      color: var(--color-text);
+    }
+
+    .home-card p {
+      font-size: 0.9rem;
+      color: var(--color-text-light);
+      line-height: 1.6;
+    }
+
+    .home-card .card-link {
+      display: inline-block;
+      margin-top: 1rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--color-accent-dark);
+    }
+
+    /* ═══════════════════════════════════════
+       RESEARCH THEMES GRID
+       ═══════════════════════════════════════ */
+    .themes-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin: 2rem 0 3rem;
+    }
+
+    .theme-box {
+      flex: 1 1 280px;
+      border: 2px solid var(--color-text);
+      border-radius: 4px;
+      padding: 1.5rem;
+    }
+
+    .theme-box--center {
+      flex: 0 1 340px;
+      margin: 0 auto;
+    }
+
+    .theme-title {
+      background: var(--color-text);
+      color: var(--color-bg);
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 0.5rem 1rem;
+      margin: -1.5rem -1.5rem 1.2rem;
+      border-radius: 2px 2px 0 0;
+      text-align: center;
+    }
+
+    .theme-box p {
+      font-size: 0.9rem;
+      color: var(--color-text-light);
+      line-height: 1.6;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+
+    /* ═══════════════════════════════════════
+       RESEARCH GROUPS
+       ═══════════════════════════════════════ */
+    .research-group {
+      margin-bottom: 3rem;
+    }
+
+    .research-group-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-text);
+      border-left: 4px solid var(--color-accent);
+      padding-left: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* ═══════════════════════════════════════
+       SECTION PAGES — shared styles
+       ═══════════════════════════════════════ */
+    .section-header {
+      padding: 2rem 0 1.5rem;
+      border-bottom: 2px solid var(--color-text);
+      margin-bottom: 2.5rem;
+    }
+
+    .section-header h2 {
+      font-family: var(--font-serif);
+      font-size: 2.4rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .section-header p {
+      margin-top: 0.5rem;
+      font-size: 0.95rem;
+      color: var(--color-text-light);
+      max-width: 600px;
+    }
+
+    .subsection-title {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin: 2.5rem 0 1.25rem;
+      color: var(--color-text);
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    /* ═══════════════════════════════════════
+       RESEARCH PAGE
+       ═══════════════════════════════════════ */
+    .paper {
+      padding: 1.5rem 0;
+      border-bottom: 1px solid rgba(221, 214, 204, 0.5);
+    }
+
+    .paper:last-child { border-bottom: none; }
+
+    .paper-title {
+      font-family: var(--font-serif);
+      font-size: 1.2rem;
+      font-weight: 600;
+      line-height: 1.35;
+      color: var(--color-text);
+      margin-bottom: 0.25rem;
+    }
+
+    .paper-authors {
+      font-size: 0.88rem;
+      color: var(--color-text-light);
+      margin-bottom: 0.2rem;
+    }
+
+    .paper-authors .me { font-weight: 600; color: var(--color-text); }
+
+    .paper-venue {
+      font-size: 0.88rem;
+      font-style: italic;
+      color: var(--color-text-muted);
+      margin-bottom: 0.6rem;
+    }
+
+    .paper-abstract {
+      font-size: 0.88rem;
+      line-height: 1.65;
+      color: var(--color-text-light);
+      margin-bottom: 0.75rem;
+      display: none;
+    }
+
+    .paper-abstract.show { display: block; }
+
+    .paper-links {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .paper-links a,
+    .paper-links button {
+      font-size: 0.78rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--color-accent-dark);
+      text-decoration: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      font-family: var(--font-sans);
+      transition: color 0.2s;
+    }
+
+    .paper-links a:hover,
+    .paper-links button:hover {
+      color: var(--color-accent);
+    }
+
+    /* ═══════════════════════════════════════
+       PRESENTATIONS PAGE
+       ═══════════════════════════════════════ */
+    .pres-item {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 1.5rem;
+      padding: 1.25rem 0;
+      border-bottom: 1px solid rgba(221, 214, 204, 0.5);
+      align-items: baseline;
+    }
+
+    .pres-item:last-child { border-bottom: none; }
+
+    .pres-date {
+      font-size: 0.85rem;
+      color: var(--color-text-muted);
+      font-style: italic;
+      padding-top: 0.15rem;
+    }
+
+    .pres-title {
+      font-family: var(--font-serif);
+      font-size: 1.1rem;
+      font-weight: 600;
+      line-height: 1.35;
+      margin-bottom: 0.15rem;
+    }
+
+    .pres-venue {
+      font-size: 0.88rem;
+      color: var(--color-text-light);
+    }
+
+    .pres-desc {
+      font-size: 0.85rem;
+      color: var(--color-text-muted);
+      line-height: 1.55;
+      margin-top: 0.35rem;
+      font-style: italic;
+    }
+
+    .pres-type {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 0.15rem 0.5rem;
+      border-radius: 3px;
+      margin-left: 0.5rem;
+      vertical-align: middle;
+    }
+
+    .pres-type.talk {
+      background: rgba(184, 134, 11, 0.1);
+      color: var(--color-accent-dark);
+    }
+
+    .pres-type.poster {
+      background: rgba(107, 76, 42, 0.08);
+      color: var(--color-link);
+    }
+
+    /* ═══════════════════════════════════════
+       TEACHING PAGE
+       ═══════════════════════════════════════ */
+    .teaching-intro {
+      font-size: 0.97rem;
+      line-height: 1.8;
+      color: var(--color-text);
+      margin-bottom: 2rem;
+      max-width: 680px;
+    }
+
+    .course-list {
+      list-style: none;
+    }
+
+    .course-item {
+      display: grid;
+      grid-template-columns: 60px 1fr;
+      gap: 1.25rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(221, 214, 204, 0.4);
+      align-items: baseline;
+    }
+
+    .course-item:last-child { border-bottom: none; }
+
+    .course-year {
+      font-size: 0.85rem;
+      color: var(--color-text-muted);
+      font-style: italic;
+    }
+
+    .course-name {
+      font-weight: 600;
+      color: var(--color-text);
+      margin-bottom: 0.1rem;
+    }
+
+    .course-info {
+      font-size: 0.88rem;
+      color: var(--color-text-light);
+      line-height: 1.6;
+      margin-top: 0.15rem;
+    }
+
+    /* ═══════════════════════════════════════
+       PHOTOGRAPHY PAGE
+       ═══════════════════════════════════════ */
+    .photo-intro {
+      font-size: 0.97rem;
+      line-height: 1.8;
+      color: var(--color-text);
+      margin-bottom: 2.5rem;
+      max-width: 680px;
+    }
+
+    .photo-subtitle {
+      font-size: 0.82rem;
+      font-style: italic;
+      color: var(--color-accent);
+      margin-top: -0.5rem;
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── XPan Slideshow ── */
+    .xpan-slideshow {
+      position: relative;
+      /* Break out of container to full viewport width */
+      width: 100vw;
+      margin-left: calc(-50vw + 50%);
+      margin-bottom: 3rem;
+      padding: 0;
+    }
+
+    .xpan-track {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 2.7 / 1;
+      overflow: hidden;
+      background: var(--color-bg-dark);
+    }
+
+    .xpan-slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.6s var(--ease-smooth);
+    }
+
+    .xpan-slide.active { opacity: 1; }
+
+    .xpan-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .xpan-slide .xpan-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.4);
+      font-style: italic;
+      background: linear-gradient(135deg, #3a3632 0%, #2c2926 50%, #3a3632 100%);
+    }
+
+    .xpan-controls {
+      max-width: var(--max-width);
+      margin: 0.75rem auto 0;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .xpan-btn {
+      background: none;
+      border: 1px solid var(--color-border);
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--color-text-light);
+      transition: all 0.2s var(--ease-smooth);
+      font-family: var(--font-sans);
+    }
+
+    .xpan-btn:hover {
+      border-color: var(--color-accent);
+      color: var(--color-accent-dark);
+      background: rgba(184, 134, 11, 0.05);
+    }
+
+    .xpan-counter {
+      font-size: 0.8rem;
+      color: var(--color-text-muted);
+      letter-spacing: 0.1em;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .xpan-caption {
+      font-size: 0.82rem;
+      color: var(--color-text-muted);
+      font-style: italic;
+      text-align: center;
+    }
+
+    .xpan-rotate-hint {
+      display: none;
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--color-text-muted);
+      margin-top: 0.5rem;
+      padding: 0 2rem;
+    }
+
+    .xpan-rotate-hint svg {
+      width: 14px;
+      height: 14px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      vertical-align: -2px;
+      margin-right: 0.25rem;
+    }
+
+    @media (max-width: 768px) and (orientation: portrait) {
+      .xpan-rotate-hint { display: block; }
+    }
+
+    /* ── Misc Grid — uniform square thumbnails ── */
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.6rem;
+    }
+
+    .photo-cell {
+      aspect-ratio: 1;
+      background: var(--color-bg-alt);
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      transition: all 0.3s var(--ease-smooth);
+    }
+
+    .photo-cell:hover {
+      transform: scale(1.03);
+      box-shadow: 0 6px 24px rgba(0,0,0,0.1);
+    }
+
+    .photo-cell img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s var(--ease-smooth);
+    }
+
+    .photo-cell:hover img {
+      transform: scale(1.05);
+    }
+
+    /* ── Lightbox ── */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(20, 18, 16, 0.94);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      animation: lbFadeIn 0.25s var(--ease-smooth);
+    }
+
+    .lightbox.open { display: flex; }
+
+    @keyframes lbFadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    .lightbox-img-wrap {
+      position: relative;
+      max-width: 90vw;
+      max-height: 82vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lightbox-img-wrap img {
+      max-width: 90vw;
+      max-height: 82vh;
+      object-fit: contain;
+      border-radius: 4px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+      transition: opacity 0.3s var(--ease-smooth);
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.5rem;
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.6);
+      font-size: 1.5rem;
+      cursor: pointer;
+      z-index: 10001;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: all 0.2s;
+    }
+
+    .lightbox-close:hover {
+      color: #fff;
+      background: rgba(255,255,255,0.1);
+    }
+
+    .lightbox-nav {
+      background: none;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: rgba(255,255,255,0.6);
+      transition: all 0.2s;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10001;
+    }
+
+    .lightbox-nav:hover {
+      color: #fff;
+      border-color: rgba(255,255,255,0.4);
+      background: rgba(255,255,255,0.08);
+    }
+
+    .lightbox-nav.prev { left: 1.5rem; }
+    .lightbox-nav.next { right: 1.5rem; }
+
+    .lightbox-counter {
+      color: rgba(255,255,255,0.4);
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      margin-top: 1rem;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .photo-note {
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--color-text-muted);
+      font-style: italic;
+      margin-top: 2rem;
+      padding: 1.5rem;
+      border: 1px dashed var(--color-border);
+      border-radius: 8px;
+      background: var(--color-white);
+    }
+
+    /* ═══════════════════════════════════════
+       FOOTER
+       ═══════════════════════════════════════ */
+    footer {
+      background: var(--color-bg-dark);
+      color: rgba(255,255,255,0.5);
+      padding: 2rem;
+      text-align: center;
+      font-size: 0.8rem;
+    }
+
+    footer a {
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+    }
+
+    /* ═══════════════════════════════════════
+       DARK MODE — NUCLEAR OVERRIDE
+       Forces every element to stay light on iOS/Android dark mode
+       ═══════════════════════════════════════ */
+    @media (prefers-color-scheme: dark) {
+      html, body, .page, .container, nav, .nav-inner,
+      .hero, .hero-text, .hero-bio,
+      .home-sections, .home-card,
+      .section-header, .paper, .pres-item, .course-item,
+      .photo-intro, .teaching-intro, .photo-note,
+      .xpan-controls, .contact-line {
+        background-color: #faf8f5 !important;
+        color: #3a3632 !important;
+        -webkit-text-fill-color: #3a3632 !important;
+      }
+      .hero-text h1, .section-header h2, .home-card h3,
+      .subsection-title, .paper-title, .pres-title, .course-name,
+      .nav-name {
+        color: #3a3632 !important;
+        -webkit-text-fill-color: #3a3632 !important;
+      }
+      .subtitle, .paper-authors, .paper-venue, .pres-date,
+      .pres-venue, .course-info, .course-year, .contact-line,
+      .hero-bio p, .paper-abstract, .xpan-counter, .pres-desc,
+      .nav-links a, .home-card p, .section-header p,
+      .photo-intro, .teaching-intro, .paper-links a, .paper-links button {
+        color: #6b6560 !important;
+        -webkit-text-fill-color: #6b6560 !important;
+      }
+      .paper-authors .me {
+        color: #3a3632 !important;
+        -webkit-text-fill-color: #3a3632 !important;
+      }
+      .photo-subtitle {
+        color: #b8860b !important;
+        -webkit-text-fill-color: #b8860b !important;
+      }
+      img { filter: none !important; }
+      footer {
+        background-color: #2c2926 !important;
+        color: rgba(255,255,255,0.5) !important;
+        -webkit-text-fill-color: rgba(255,255,255,0.5) !important;
+      }
+    }
+
+    /* ═══════════════════════════════════════
+       RESPONSIVE
+       ═══════════════════════════════════════ */
+    @media (max-width: 768px) {
+      html { font-size: 16px; }
+
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: var(--nav-height);
+        left: 0;
+        right: 0;
+        background: #faf8f5 !important;
+        background-color: #faf8f5 !important;
+        border-bottom: 1px solid var(--color-border);
+        flex-direction: column;
+        padding: 1rem;
+        gap: 0;
+      }
+
+      .nav-links.open { display: flex; }
+
+      .nav-links a {
+        padding: 0.75rem 1rem;
+        font-size: 0.88rem;
+      }
+
+      .nav-toggle { display: block; }
+
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        text-align: center;
+      }
+
+      .hero-photo {
+        max-width: 220px;
+        margin: 0 auto;
+      }
+
+      .hero-text h1 { font-size: 2.2rem; }
+
+      .hero-links { justify-content: center; }
+
+      .home-sections {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+      }
+
+      .pres-item {
+        grid-template-columns: 1fr;
+        gap: 0.25rem;
+      }
+
+      .photo-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════ NAVIGATION ═══════════════ -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="#" class="nav-name" onclick="showPage('home'); return false;">Marica Miglio</a>
+      <button class="nav-toggle" onclick="toggleMenu()" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#" data-page="home" class="active" onclick="showPage('home'); return false;">Home</a></li>
+        <li><a href="#" data-page="research" onclick="showPage('research'); return false;">Research</a></li>
+      </ul>
+    </div>
+  </nav>
+
+
+  <!-- ═══════════════════════════════════════════
+       HOME PAGE
+       ═══════════════════════════════════════════ -->
+  <section class="page active" id="page-home">
+    <div class="container">
+
+      <div class="hero">
+        <img src="photo.jpg" alt="Marica Miglio" class="hero-photo">
+
+        <div class="hero-text">
+          <h1>Marica Miglio</h1>
+          <p class="subtitle">
+            PhD Researcher in Social and Political Sciences · <a href="https://www.eui.eu/en/home" target="_blank">European University Institute</a>
+          </p>
+          <div class="hero-bio">
+            <p>
+              I am a quantitative sociologist specialized in income inequality and equality of opportunity. My research develops new measures of unequal opportunities to analyse how structural changes shape people's life chances, economic fairness and redistributive preferences. I work with large-scale cross-national datasets and experimental research and often collaborate with NGOs to design and evaluate the effectiveness of their interventions.
+            </p>
+            <p>
+              Previously, I obtained a Master of Science in Social and Political Sciences at Collegio Carlo Alberto, and at the University of Turin (Italy) a Master's degree in International Cooperation and a Bachelor's degree in Social and Political Sciences.
+            </p>
+          </div>
+
+          <div class="hero-links">
+            <a href="mailto:marica.miglio@eui.eu">
+              <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              Email
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Section Cards ── -->
+      <div class="home-sections">
+        <a class="home-card" onclick="showPage('research'); scrollToGroup('group-inequalities'); return false;" href="#">
+          <h3>Income Inequalities</h3>
+          <p>What are the causes of income inequalities and how do income inequalities affect people's lives?</p>
+          <p>How do the stories we tell create and perpetuate income inequalities?</p>
+          <p>Why can even objective evaluations of performance reproduce and increase inequalities?</p>
+          <span class="card-link">Research →</span>
+        </a>
+
+        <a class="home-card" onclick="showPage('research'); scrollToGroup('group-opportunities'); return false;" href="#">
+          <h3>Unequal Opportunities</h3>
+          <p>Why is there a tension between objective levels of income inequalities in societies and individuals' subjective perceptions of them?</p>
+          <p>How can we measure equality of opportunity?</p>
+          <p>Are people concerned about unequal opportunities at all?</p>
+          <span class="card-link">Research →</span>
+        </a>
+
+        <a class="home-card" onclick="showPage('research'); scrollToGroup('group-prejudice'); return false;" href="#">
+          <h3>Prejudice and Discrimination</h3>
+          <p>Can we change prejudice in the classroom?</p>
+          <p>Research conducted in collaboration with NGOs and schools</p>
+          <span class="card-link">Research →</span>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════
+       RESEARCH PAGE
+       ═══════════════════════════════════════════ -->
+  <section class="page" id="page-research">
+    <div class="container">
+      <div class="section-header">
+        <h2>Research</h2>
+      </div>
+
+      <!-- ── Income Inequalities ── -->
+      <div class="research-group" id="group-inequalities">
+        <div class="research-group-title">Income Inequalities</div>
+
+        <div class="paper">
+          <div class="paper-title">Awarding merit or rewarding inequalities? The effect of the meritocracy on unequal performance</div>
+          <div class="paper-authors"><span class="me">Marica Miglio</span></div>
+          <div class="paper-abstract" id="abs-merit">
+            Why do socioeconomic status inequalities persist in meritocratic systems, where merits and performance should be the sole criteria of evaluation? Recent studies show that merit-based practices can have a stratifying effect on attitudes, behaviours, and performance based on social position. I further explore whether these effects occur only in the presence of a social environment, arguing that merit-based reward systems integrate a competitive structure responsible for the observed stratifying dynamics. In a survey experiment conducted in the United Kingdom (N=495), participants completed a real-effort task under different reward structures: a control condition that rewarded participation and a merit-based condition that rewarded performance. Within the merit-based conditions, participants were randomly assigned to either a solitary environment, where performance was rewarded independently of others, or a social one, where their performance was evaluated against that of other participants. The results confirm that merit-based reward systems create an ambivalent opportunity-threat dynamic: participants from low-socioeconomic positions underperform under meritocratic conditions, while participants from higher-socioeconomic positions perform better. However, this pattern is evident only when the meritocratic condition is paired with a social component, suggesting that the meritocratic emphasis on performance alone is insufficient to produce an impact. Rather, its effect is activated in combination with social dynamics of competition and comparison. This study offers an innovative perspective on the reproduction of socioeconomic status inequalities even when merit and performance are objectively rewarded. These findings also hold important implications for social stratification in educational settings and workplaces that widely implement meritocratic reward systems.
+          </div>
+          <div class="paper-links">
+            <button onclick="toggleAbstract('abs-merit')">Abstract</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Unequal Opportunities ── -->
+      <div class="research-group" id="group-opportunities">
+        <div class="research-group-title">Unequal Opportunities</div>
+
+        <div class="paper">
+          <div class="paper-title">What people care about in income inequalities: the structure of opportunity as driver of public attitudes</div>
+          <div class="paper-authors"><span class="me">Marica Miglio</span></div>
+          <div class="paper-abstract" id="abs-opportunity">
+            How do individuals form attitudes toward income inequalities? Recent studies have explained attitudes turning from objective macro-indicators toward subjective perceptions of inequality. While consistent results have been found, this turn risks circularity: explaining attitudes with perceptions, and perceptions with yet other attitudes, leaves the deeper questions about the origins of attitudes unanswered. This paper reintroduces an objective but novel approach questioning how attitudes toward income inequalities are formed. I theorize and test whether individuals respond to how opportunities are structured, specifically to whether skills or social origins are rewarded in the labour market. I operationalize this distinction using the Origin-Skills-Destination triangle, which separates the meritocratic path (Skills-to-Destination), the ascribed path (the Origin-to-Destination net of skills), the unequal starting point (Origin-to-Skills) and the indirect pathway through which Origin determines Skills and in turn shape Destination. I use a two-stage synthetic cohort design linking the OSD computed with PIAAC to attitudinal data from the ISSP 2009 Social Inequality module across 26 countries. Results show that the indirect pathway and the direct pathway from origin to skills are associated with stronger preferences for redistribution and higher support for progressive taxation. The direct meritocratic path is instead associated with lower salience of non-meritocratic factors in getting ahead in life. However, the structure of opportunity shapes attitudes primarily through a positional logic, as people's attitudes depend primarily on their social background. Heterogenous analyses including individuals' social background suggest, in particular, that individuals with tertiary education lower their preferences for redistribution in response to the meritocratic and indirect pathway. These results together suggest that the public may be responding to the structure of opportunity in their countries. Objective structural indicators may therefore warrant renewed attention in explaining subjective attitudes.
+          </div>
+          <div class="paper-links">
+            <button onclick="toggleAbstract('abs-opportunity')">Abstract</button>
+          </div>
+        </div>
+
+        <div class="paper">
+          <div class="paper-title">Hard work or hard start? How exposure to unequal opportunities affects redistribution and fairness preferences</div>
+          <div class="paper-authors"><span class="me">Marica Miglio</span> & Marta Sylwestrzak</div>
+          <div class="paper-abstract" id="abs-hardwork">
+            Why do people tolerate income inequalities even in the presence of unequal opportunities? Studies have shown that individuals are more tolerant of inequalities and less supportive of redistribution when they believe inequalities result from merit. Yet income inequalities often emerge from unequal access to resources rather than merit. By focusing exclusively on merit, previous studies have overlooked how unequal opportunities may offer a distinct pathway for the legitimisation of income inequalities. We address this gap with a laboratory experiment (N=602) in which we manipulate access to time to create unequal opportunities for success in a real-effort task. Exposure to unequal opportunities increases redistributive behaviour and preferences and reduces the legitimisation of inequalities. However, participants update their preferences only when unequal opportunities contradict a meritocratic narrative: when individuals win (lose) despite the (dis)advantage, outcomes are interpreted as deserved and redistribution is rejected. These findings suggest that increasing support for redistribution also requires confronting status positioning and deservingness beliefs rather than assuming egalitarian preferences will emerge simply from providing accurate information about inequalities.
+          </div>
+          <div class="paper-links">
+            <button onclick="toggleAbstract('abs-hardwork')">Abstract</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Prejudice and Discrimination ── -->
+      <div class="research-group" id="group-prejudice">
+        <div class="research-group-title">Prejudice and Discrimination</div>
+
+        <div class="paper">
+          <div class="paper-title">Online hate speech and prejudice among adolescents: a field experiment on Italian schools</div>
+          <div class="paper-authors">Camilla Borgna, Effrosyni Charitopoulou &amp; <span class="me">Marica Miglio</span></div>
+          <div class="paper-venue">Under review</div>
+          <div class="paper-links">
+          </div>
+        </div>
+
+        <div class="paper">
+          <div class="paper-title">Reducing gender-based polarization: a field study in UK schools</div>
+          <div class="paper-authors">Henri Pozsar, <span class="me">Marica Miglio</span>, Max Bradley, Simon Hix &amp; Beth Ginsburg</div>
+          <div class="paper-venue"><em>Work in progress</em></div>
+          <div class="paper-links">
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ═══════════════ FOOTER ═══════════════ -->
+  <footer>
+    © 2026 Marica Miglio 
+  </footer>
+
+
+  <!-- ═══════════════ JAVASCRIPT ═══════════════ -->
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    // ── Page Navigation ──
+    function showPage(pageId) {
+      // Hide all pages
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      // Show target
+      const target = document.getElementById('page-' + pageId);
+      if (target) target.classList.add('active');
+      // Update nav links
+      document.querySelectorAll('.nav-links a[data-page]').forEach(a => {
+        a.classList.toggle('active', a.dataset.page === pageId);
+      });
+      // Close mobile menu
+      document.getElementById('navLinks').classList.remove('open');
+      // Scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      // Update URL hash (for shareable links & analytics)
+      const newPath = pageId === 'home' ? '/' : '/#' + pageId;
+      if (history.replaceState) history.replaceState(null, '', newPath);
+      // Tell GoatCounter to count this as a pageview
+      if (window.goatcounter && window.goatcounter.count) {
+        window.goatcounter.count({ path: newPath, event: false });
+      }
+    }
+
+    // ── Scroll to Research Group ──
+    function scrollToGroup(groupId) {
+      setTimeout(function() {
+        const el = document.getElementById(groupId);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 50);
+    }
+
+    // ── Mobile Menu Toggle ──
+    function toggleMenu() {
+      document.getElementById('navLinks').classList.toggle('open');
+    }
+
+    // ── Scroll shadow on nav ──
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 10);
+    });
+
+    // ── Abstract Toggle ──
+    function toggleAbstract(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.toggle('show');
+    }
+
+    // ── XPan Slideshow ──
+    let xpanCurrent = 0;
+    function xpanNav(dir) {
+      const slides = document.querySelectorAll('.xpan-slide');
+      if (slides.length === 0) return;
+      slides[xpanCurrent].classList.remove('active');
+      xpanCurrent = (xpanCurrent + dir + slides.length) % slides.length;
+      slides[xpanCurrent].classList.add('active');
+      document.getElementById('xpanCounter').textContent =
+        (xpanCurrent + 1) + ' / ' + slides.length;
+    }
+
+    // ── Lightbox ──
+    const lbPhotos = [
+      'photo1.jpg','photo2.jpg','photo3.jpg','photo4.jpg','photo5.jpg',
+      'photo6.jpg','photo7.jpg','photo8.jpg','photo9.jpg','photo10.jpg'
+    ];
+    let lbIndex = 0;
+
+    function openLightbox(index) {
+      lbIndex = index;
+      const lb = document.getElementById('lightbox');
+      const img = document.getElementById('lightboxImg');
+      img.src = lbPhotos[lbIndex];
+      document.getElementById('lightboxCounter').textContent = (lbIndex + 1) + ' / ' + lbPhotos.length;
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function closeLightboxOnBg(e) {
+      if (e.target === document.getElementById('lightbox') ||
+          e.target.classList.contains('lightbox-img-wrap')) {
+        closeLightbox();
+      }
+    }
+
+    function lightboxNav(dir) {
+      lbIndex = (lbIndex + dir + lbPhotos.length) % lbPhotos.length;
+      document.getElementById('lightboxImg').src = lbPhotos[lbIndex];
+      document.getElementById('lightboxCounter').textContent = (lbIndex + 1) + ' / ' + lbPhotos.length;
+    }
+
+    // Keyboard navigation — lightbox takes priority, then XPan slideshow
+    document.addEventListener('keydown', (e) => {
+      const lbOpen = document.getElementById('lightbox').classList.contains('open');
+      if (lbOpen) {
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft') lightboxNav(-1);
+        if (e.key === 'ArrowRight') lightboxNav(1);
+        return;
+      }
+    });
+
+    // ── Handle URL hash for direct linking ──
+    if (window.location.hash) {
+      const page = window.location.hash.replace('#', '');
+      if (document.getElementById('page-' + page)) {
+        showPage(page);
+      }
+    }
+  </script>
+
+  <script data-goatcounter="https://lucagarzinodemo.goatcounter.com/count"
+          async src="//gc.zgo.at/count.js"></script>
+
+</body>
+</html>
